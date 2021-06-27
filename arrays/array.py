@@ -18,53 +18,41 @@ class Array:
             raise ValueError("Length must be greater than or equal to 0.")
 
         self.__length = length
-        self.__array = [0 for item in range(self.__length)]
+        self.__array = [0] * self.__length
 
-    def insert(self, item: int) -> bool:
+    def insert(self, item: int):
         """
         Inserts an item at the end of the array,
         or the first available spot if the array is not yet filled up.
 
-        :rtype: a boolean value determining whether the operation was successful or not.
         :param item: is the item to be inserted.
         """
 
         if self.__counter == len(self.__array):
-            self.__array = self.__expand_by_1()
+            self.__array = self.__double_size()
 
         # __counter is inside __array bounds
         try:
             self.__array[self.__counter] = item
             self.__counter += 1
-
-            return True
         except IndexError:
-            return False
+            return
 
-    def remove_at(self, index: int) -> int:
+    def remove_at(self, index: int):
         """
         Removes the item at the provided index.
 
-        :rtype: the value removed, or -1 if index is out of bounds.
         :param index: is the index of the item to remove.
         """
-        if index < 0 or index > len(self.__array) - 1:
-            return -1
+        if index < 0 or index >= self.__counter:
+            raise ValueError(
+                "Index must be grater than or equal to 0, and less than or equal to the size of the array.")
 
-        removed = self.__array[index]
+        # Shift items to the left
+        for i in range(index, self.__counter):
+            self.__array[i] = self.__array[i + 1]
 
-        new = [0 for i in range(len(self.__array) - 1)]
-
-        counter = 0
-        for i in range(len(self.__array)):
-            if self.__array[i] != removed:
-                new[counter] = self.__array[i]
-                counter += 1
-
-        self.__array = new
         self.__counter -= 1
-
-        return removed
 
     def index_of(self, item: int) -> int:
         """
@@ -80,6 +68,38 @@ class Array:
 
         return -1
 
+    def max(self) -> int:
+        """
+        Finds the maximum value in the array.
+        Runtime complexity: O(n).
+
+        :return: the maximum value in the array.
+        """
+
+        max_value = self.__array[0]
+
+        for num in self.__array:
+            if num >= max_value:
+                max_value = num
+
+        return max_value
+
+    def reverse(self) -> List[int]:
+        """
+        Reversed this array.
+        Runtime complexity: O(n).
+
+        :return: the reversed array
+        """
+        reversed = [0] * self.__counter
+
+        counter = 0
+        for i in range(self.__counter - 1, -1, -1):
+            reversed[counter] = self.__array[i]
+            counter += 1
+
+        return reversed
+
     def print(self) -> None:
         """
         Prints the content of the array.
@@ -88,8 +108,8 @@ class Array:
         """
         s = "["
 
-        for i in range(len(self.__array)):
-            if i == len(self.__array) - 1:
+        for i in range(self.__counter):
+            if i == self.__counter - 1:
                 s += f'{str(self.__array[i])}'
             else:
                 s += f'{str(self.__array[i])}, '
@@ -98,14 +118,16 @@ class Array:
 
         print(s)
 
-    def __expand_by_1(self) -> List[int]:
+    def __double_size(self) -> List[int]:
         """
-        Copies the existing array, and adds space for 1 item more.
+        Copies the existing array, and doubles the array size.
 
-        :rtype: the copied array with space for 1 item more.
+        :rtype: the copied array with doubled space.
         """
-        copy = [item for item in self.__array]
-        copy.append(0)
+        copy = [0] * (self.__counter * 2)
+
+        for i in range(self.__counter):
+            copy[i] = self.__array[i]
 
         return copy
 
@@ -124,18 +146,42 @@ array.insert(4)
 
 array.print()
 
-value = array.remove_at(3)
+reversed = array.reverse()
+
+print(reversed)
+
+array.remove_at(3)
+
+array.print()
 
 index = array.index_of(4)
 
 print(f'Index: {index}')
 
-print(f'Removed value: {value}')
+array.print()
+
+array.remove_at(1)
 
 array.print()
 
-value = array.remove_at(1)
+max_value = array.max()
 
-print(f'Removed value: {value}')
+print(f'Max value: {max_value}')
+
+print("-----")
+
+new_array = Array(5)
+
+new_array.insert(1)
+new_array.insert(2)
+new_array.insert(3)
+
+reversed = array.reverse()
+
+print(reversed)
+
+array.print()
+
+array.insert_at(10, 1)
 
 array.print()
