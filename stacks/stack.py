@@ -3,8 +3,16 @@ from typing import List
 
 class Stack:
     __size: int
-    __stack: List[int or None]
+    __stack: List[int]
     __counter: int = 0
+
+    @property
+    def stack(self):
+        return self.__stack
+
+    @property
+    def counter(self):
+        return self.__counter
 
     def __init__(self, size):
         if size <= 0:
@@ -12,7 +20,7 @@ class Stack:
 
         self.__size = size
 
-        # Initialize stack with None values
+        # Initialize stack with 0 values
         self.__stack = [0] * self.__size
 
     def push(self, item: int) -> None:
@@ -66,19 +74,6 @@ class Stack:
         :return: a boolean value determining if the stack is empty.
         """
         return self.__counter == 0
-
-    def __double_size(self) -> List[int]:
-        """
-        Copies the existing stack, and doubles the stack size.
-
-        :rtype: the copied stack with doubled space.
-        """
-        copy = [0] * (self.__counter * 2)
-
-        for i in range(self.__counter):
-            copy[i] = self.__stack[i]
-
-        return copy
 
     def print(self) -> None:
         """
