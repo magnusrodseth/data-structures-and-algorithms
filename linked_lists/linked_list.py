@@ -22,6 +22,10 @@ class LinkedList:
     __last: _Node or None = None  # Reference to tail Node
     __size: int = 0
 
+    @property
+    def first(self):
+        return self.__first
+
     def add_first(self, item: int) -> None:
         """
         Adds a node in the beginning of the linked list.
