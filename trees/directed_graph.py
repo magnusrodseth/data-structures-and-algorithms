@@ -16,7 +16,7 @@ class _Node:
         return self.__label
 
 
-class Graph:
+class DirectedGraph:
     # Holds key: label, value: _Node object
     __nodes: Dict[str, _Node] = {}
 
@@ -310,7 +310,7 @@ class Graph:
 
 
 if __name__ == '__main__':
-    graph = Graph()
+    graph = DirectedGraph()
 
     graph.add_node("A")
     graph.add_node("B")

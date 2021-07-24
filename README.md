@@ -2490,7 +2490,7 @@ class Trie:
             node.remove_child(current_character)
 ```
 
-## Graphs
+## Directed Graphs
 
 ### Exercise: Building a directed graph from scratch
 
