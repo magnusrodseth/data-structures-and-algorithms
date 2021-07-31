@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict
 
 
 class Array:
@@ -24,6 +24,8 @@ class Array:
         """
         Inserts an item at the end of the array,
         or the first available spot if the array is not yet filled up.
+        Complexity of inserting at the end: O(1).
+        Complexity of inserting in the middle, or when resizing array: O(n).
 
         :param item: is the item to be inserted.
         """
@@ -41,6 +43,7 @@ class Array:
     def remove_at(self, index: int):
         """
         Removes the item at the provided index.
+        Complexity: O(n).
 
         :param index: is the index of the item to remove.
         """
@@ -54,9 +57,30 @@ class Array:
 
         self.__counter -= 1
 
+    def intersect(self, other: List[int]) -> List[int]:
+        """
+        Gets the common items in this array and another array.
+        Complexity: O(n + m) => O(n).
+        :param other: is the other array
+        :return: the intersection between the two arrays
+        """
+        common: Dict[int, bool] = {}
+
+        for item in self.__array:
+            common[item] = True
+
+        result = []
+
+        for item in other:
+            if item in common and common[item]:
+                result.append(item)
+
+        return result
+
     def index_of(self, item: int) -> int:
         """
-        Gets the index of a given item in the array.
+        Gets the index of a given item in the array using linear search.
+        Complexity: O(n).
         
         :rtype: the index of the provided item, or -1 if it is not found.
         :param item: is the item to find the corresponding index for. 
@@ -76,17 +100,17 @@ class Array:
         :return: the maximum value in the array.
         """
 
-        max_value = self.__array[0]
+        maximum = self.__array[0]
 
         for num in self.__array:
-            if num >= max_value:
-                max_value = num
+            if num >= maximum:
+                maximum = num
 
-        return max_value
+        return maximum
 
     def reverse(self) -> List[int]:
         """
-        Reversed this array.
+        Reverses this array.
         Runtime complexity: O(n).
 
         :return: the reversed array
@@ -132,56 +156,15 @@ class Array:
         return copy
 
 
-array = Array(3)
+if __name__ == '__main__':
+    array = Array(5)
+    array.insert(1)
+    array.insert(2)
+    array.insert(3)
+    array.insert(4)
+    array.insert(5)
+    array.print()
 
-array.print()
+    other = [1, 2, 3, 8, 9, 0]
 
-array.insert(1)
-array.insert(2)
-array.insert(3)
-
-array.print()
-
-array.insert(4)
-
-array.print()
-
-reversed = array.reverse()
-
-print(reversed)
-
-array.remove_at(3)
-
-array.print()
-
-index = array.index_of(4)
-
-print(f'Index: {index}')
-
-array.print()
-
-array.remove_at(1)
-
-array.print()
-
-max_value = array.max()
-
-print(f'Max value: {max_value}')
-
-print("-----")
-
-new_array = Array(5)
-
-new_array.insert(1)
-new_array.insert(2)
-new_array.insert(3)
-
-reversed = array.reverse()
-
-print(reversed)
-
-array.print()
-
-array.insert_at(10, 1)
-
-array.print()
+    print(array.intersect(other))
