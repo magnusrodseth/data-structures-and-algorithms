@@ -44,7 +44,7 @@ for num in numbers:  # O(n)
 for name in names:  # O(m)
     print(name)
 
-# ==> O(n + m) ==> O(n)
+# ==> O(n + m)
 # Still linear growth
 ```
 
@@ -1504,258 +1504,276 @@ class Tree:
         # Both trees have defined nodes and we should check left and right subtrees for equality
         if first and second:
             return first.value == second.value
-                   and self.__equals(first.left_child, second.left_child)
-                   and self.__equals(first.right_child, second.right_child)
+            and self.__equals(first.left_child, second.left_child)
+            and self.__equals(first.right_child, second.right_child)
 
-        # These nodes are not equal
+    # These nodes are not equal
+    return False
+
+
+def is_binary_search_tree(self) -> bool:
+    """
+    Checks if this tree is a binary search tree recursively.
+    A tree is a binary search tree if all nodes in the left subtree is less than the root node,
+    and all nodes in the right subtree is greater than the root node.
+
+    :return: a boolean value determining if the tree is a binary search tree.
+    """
+
+    # The minimum value for a root node is negative infinity.
+    # The maximum value for a root node is positive infinity.
+    return self.__is_binary_search_tree(self.__root, NEGATIVE_INFINITY, POSITIVE_INFINITY)
+
+
+def __is_binary_search_tree(self, node: _Node, min_value: float, max_value: float) -> bool:
+    """
+    The implementation detail of checking if this tree is a binary search tree recursively.
+    A tree is a binary search tree if all nodes in the left subtree is less than the root node,
+    and all nodes in the right subtree is greater than the root node.
+
+    :param node: is the node to validate
+    :param min_value: is the node's minimum value.
+    :param max_value: is the node's maximum value.
+    :return: a boolean value determining if the tree is a binary search tree.
+    """
+    if node is None:
+        return True
+
+    # Node value is out of bounds
+    if node.value < min_value or node.value > max_value:
         return False
 
-    def is_binary_search_tree(self) -> bool:
-        """
-        Checks if this tree is a binary search tree recursively.
-        A tree is a binary search tree if all nodes in the left subtree is less than the root node,
-        and all nodes in the right subtree is greater than the root node.
+    return self.__is_binary_search_tree(node.left_child, min_value, node.value - 1) \
+            and self.__is_binary_search_tree(node.right_child, node.value + 1, max_value)
 
-        :return: a boolean value determining if the tree is a binary search tree.
-        """
 
-        # The minimum value for a root node is negative infinity.
-        # The maximum value for a root node is positive infinity.
-        return self.__is_binary_search_tree(self.__root, NEGATIVE_INFINITY, POSITIVE_INFINITY)
+def get_nodes_with_distance(self, n: int) -> List[_Node]:
+    """
+    Gets nodes with distance n from the root of the tree recursively.
 
-    def __is_binary_search_tree(self, node: _Node, min_value: float, max_value: float) -> bool:
-        """
-        The implementation detail of checking if this tree is a binary search tree recursively.
-        A tree is a binary search tree if all nodes in the left subtree is less than the root node,
-        and all nodes in the right subtree is greater than the root node.
+    :param n: is the distance from the root. Note that the root node has distance 0 from itself.
+    :return: a list of nodes with distance n from the root node.
+    """
 
-        :param node: is the node to validate
-        :param min_value: is the node's minimum value.
-        :param max_value: is the node's maximum value.
-        :return: a boolean value determining if the tree is a binary search tree.
-        """
-        if node is None:
-            return True
+    nodes: List[_Node] = []
 
-        # Node value is out of bounds
-        if node.value < min_value or node.value > max_value:
-            return False
+    # Recursively add nodes with distance n from root node.
+    self.__get_nodes_with_distance(self.__root, n, nodes)
 
-        return self.__is_binary_search_tree(node.left_child, min_value, node.value - 1)
-               and self.__is_binary_search_tree(node.right_child, node.value + 1, max_value)
+    return nodes
 
-    def get_nodes_with_distance(self, n: int) -> List[_Node]:
-        """
-        Gets nodes with distance n from the root of the tree recursively.
 
-        :param n: is the distance from the root. Note that the root node has distance 0 from itself.
-        :return: a list of nodes with distance n from the root node.
-        """
+def __get_nodes_with_distance(self, node: _Node, n: int, nodes: List[_Node]):
+    """
+    The implementation detail of getting nodes with distance n from the root node.
 
-        nodes: List[_Node] = []
+    :param node: is the current node to compare.
+    :param n: is the current distance from root.
+    :param nodes: is the list of nodes with distance n from the root node.
+    """
+    if node is None:
+        return
 
-        # Recursively add nodes with distance n from root node.
-        self.__get_nodes_with_distance(self.__root, n, nodes)
+    if n == 0:
+        nodes.append(node)
+        return
 
-        return nodes
+    # Recursively find the nodes with distance n from the root node.
+    if node.left_child:
+        self.__get_nodes_with_distance(node.left_child, n - 1, nodes)
+    if node.right_child:
+        self.__get_nodes_with_distance(node.right_child, n - 1, nodes)
 
-    def __get_nodes_with_distance(self, node: _Node, n: int, nodes: List[_Node]):
-        """
-        The implementation detail of getting nodes with distance n from the root node.
 
-        :param node: is the current node to compare.
-        :param n: is the current distance from root.
-        :param nodes: is the list of nodes with distance n from the root node.
-        """
-        if node is None:
-            return
+def minimum_value(self) -> int:
+    """
+    Finds the minimum value in a binary tree. O(n).
+    :return: the minimum value in the tree.
+    """
+    if self.__root is None:
+        raise AttributeError("Tree is empty and has no minimum value.")
 
-        if n == 0:
-            nodes.append(node)
-            return
+    return self.__minimum_value(self.__root)
 
-        # Recursively find the nodes with distance n from the root node.
-        if node.left_child:
-            self.__get_nodes_with_distance(node.left_child, n - 1, nodes)
-        if node.right_child:
-            self.__get_nodes_with_distance(node.right_child, n - 1, nodes)
 
-    def minimum_value(self) -> int:
-        """
-        Finds the minimum value in a binary tree. O(n).
-        :return: the minimum value in the tree.
-        """
-        if self.__root is None:
-            raise AttributeError("Tree is empty and has no minimum value.")
+def __minimum_value(self, root: _Node) -> int:
+    """
+    The implementation detail of finding the minimum value in a binary tree. O(n).
 
-        return self.__minimum_value(self.__root)
+    :rtype: the minimum value in the binary tree.
+    """
+    if self.__is_leaf_node(root):
+        return root.value
 
-    def __minimum_value(self, root: _Node) -> int:
-        """
-        The implementation detail of finding the minimum value in a binary tree. O(n).
+    # Find minimum value of left subtree
+    minimum_value_left = self.__minimum_value(self.__root.left_child)
 
-        :rtype: the minimum value in the binary tree.
-        """
-        if self.__is_leaf_node(root):
-            return root.value
+    # Find minimum value of right subtree
+    minimum_value_right = self.__minimum_value(self.__root.right_child)
 
-        # Find minimum value of left subtree
-        minimum_value_left = self.__minimum_value(self.__root.left_child)
+    # Find minimum value in subtrees
+    minimum_value_subtree = min(minimum_value_left, minimum_value_right)
 
-        # Find minimum value of right subtree
-        minimum_value_right = self.__minimum_value(self.__root.right_child)
+    return min(minimum_value_subtree, root.value)
 
-        # Find minimum value in subtrees
-        minimum_value_subtree = min(minimum_value_left, minimum_value_right)
 
-        return min(minimum_value_subtree, root.value)
+def minimum_value_in_binary_search_tree(self) -> int:
+    """
+    Finds the minimum value in a binary search tree. Recall that in a binary search tree, the left subtree's
+    values will always be less than the right subtree's values. O(log n).
 
-    def minimum_value_in_binary_search_tree(self) -> int:
-        """
-        Finds the minimum value in a binary search tree. Recall that in a binary search tree, the left subtree's
-        values will always be less than the right subtree's values. O(log n).
+    :return: the minimum value in the binary search tree.
+    """
+    if self.__root is None:
+        raise AttributeError(
+            "Binary search tree is empty, and has no minimum value.")
 
-        :return: the minimum value in the binary search tree.
-        """
-        if self.__root is None:
-            raise AttributeError(
-                "Binary search tree is empty, and has no minimum value.")
+    current = self.__root
+    last = current.left_child
 
-        current = self.__root
-        last = current.left_child
+    while current:
+        last = current
 
-        while current:
-            last = current
+        # In a binary search tree, the leftmost leaf node will always be the minimum value.
+        current = current.left_child
 
-            # In a binary search tree, the leftmost leaf node will always be the minimum value.
-            current = current.left_child
+    return last.value
 
-        return last.value
 
-    def maximum_value_in_binary_search_tree(self) -> int:
-        """
-        Finds the maximum value in a binary search tree. Recall that in a binary search tree, the left subtree's
-        values will always be less than the right subtree's values. O(log n).
+def maximum_value_in_binary_search_tree(self) -> int:
+    """
+    Finds the maximum value in a binary search tree. Recall that in a binary search tree, the left subtree's
+    values will always be less than the right subtree's values. O(log n).
 
-        :return: the maximum value in the binary search tree.
-        """
-        if self.__root is None:
-            raise AttributeError(
-                "Binary search tree is empty, and has no maximum value.")
+    :return: the maximum value in the binary search tree.
+    """
+    if self.__root is None:
+        raise AttributeError(
+            "Binary search tree is empty, and has no maximum value.")
 
-        current = self.__root
-        last = current.right_child
+    current = self.__root
+    last = current.right_child
 
-        while current:
-            last = current
+    while current:
+        last = current
 
-            # In a binary search tree, the rightmost leaf node will always be the maximum value.
-            current = current.right_child
+        # In a binary search tree, the rightmost leaf node will always be the maximum value.
+        current = current.right_child
 
-        return last.value
+    return last.value
 
-    def __is_leaf_node(self, node: _Node) -> bool:
-        """
-        Checks if a node is a leaf node.
 
-        :rtype: a boolean value determining if the node is a leaf node.
-        """
-        return (node.left_child is None) and (node.right_child is None)
+def __is_leaf_node(self, node: _Node) -> bool:
+    """
+    Checks if a node is a leaf node.
 
-    def height(self) -> int:
-        """
-        Calculates the height of the binary tree using recursion.
+    :rtype: a boolean value determining if the node is a leaf node.
+    """
+    return (node.left_child is None) and (node.right_child is None)
 
-        :return: the height of the tree, -1 if the tree is empty.
-        """
 
-        # Tree is empty
-        if self.__root is None:
-            return -1
+def height(self) -> int:
+    """
+    Calculates the height of the binary tree using recursion.
 
-        return self.__height(self.__root)
+    :return: the height of the tree, -1 if the tree is empty.
+    """
 
-    def __height(self, root: _Node) -> int:
-        """
-        The implementation detail of calculating the height of the binary tree using recursion.
+    # Tree is empty
+    if self.__root is None:
+        return -1
 
-        :param root: is the current node.
-        :return: the height of the tree.
-        """
-        if self.__is_leaf_node(root):
-            return 0
+    return self.__height(self.__root)
 
-        return 1 + max(self.__height(root.left_child), self.__height(root.right_child))
 
-    def traverse_pre_order(self) -> None:
-        """
-        An implementation of pre-order traversal of a tree using recursion.
-        """
-        self.__traverse_pre_order(self.__root)
+def __height(self, root: _Node) -> int:
+    """
+    The implementation detail of calculating the height of the binary tree using recursion.
 
-    def __traverse_pre_order(self, root: _Node) -> None:
-        """
-        The implementation detail of pre-order traversal of a tree using recursion.
+    :param root: is the current node.
+    :return: the height of the tree.
+    """
+    if self.__is_leaf_node(root):
+        return 0
 
-        :param root: is the current Node, or None if there are no more child nodes.
-        """
+    return 1 + max(self.__height(root.left_child), self.__height(root.right_child))
 
-        # Base condition
-        if root is None:
-            return
 
-        # Root, left, right
-        print(root)
-        self.__traverse_pre_order(root.left_child)
-        self.__traverse_pre_order(root.right_child)
+def traverse_pre_order(self) -> None:
+    """
+    An implementation of pre-order traversal of a tree using recursion.
+    """
+    self.__traverse_pre_order(self.__root)
 
-    def traverse_in_order(self) -> None:
-        """
-        An implementation of in-order traversal of a tree using recursion.
-        """
 
-        self.__traverse_in_order(self.__root)
+def __traverse_pre_order(self, root: _Node) -> None:
+    """
+    The implementation detail of pre-order traversal of a tree using recursion.
 
-    def __traverse_in_order(self, root: _Node) -> None:
-        """
-        The implementation detail of in-order traversal of a tree using recursion.
+    :param root: is the current Node, or None if there are no more child nodes.
+    """
 
-        :param root: is the current Node, or None if there are no more child nodes.
-        """
+    # Base condition
+    if root is None:
+        return
 
-        if root is None:
-            return
+    # Root, left, right
+    print(root)
+    self.__traverse_pre_order(root.left_child)
+    self.__traverse_pre_order(root.right_child)
 
-        # Left, root, right
-        self.__traverse_in_order(root.left_child)
-        print(root)
-        self.__traverse_in_order(root.right_child)
 
-    def traverse_post_order(self) -> None:
-        """
-        An implementation of post-order traversal of a tree using recursion.
-        """
+def traverse_in_order(self) -> None:
+    """
+    An implementation of in-order traversal of a tree using recursion.
+    """
 
-        self.__traverse_post_order(self.__root)
+    self.__traverse_in_order(self.__root)
 
-    def __traverse_post_order(self, root: _Node) -> None:
-        """
-        The implementation detail of post-order traversal of a tree using recursion.
 
-        :param root: is the current Node, or None if there are no more child nodes.
-        """
-        if root is None:
-            return
+def __traverse_in_order(self, root: _Node) -> None:
+    """
+    The implementation detail of in-order traversal of a tree using recursion.
 
-        # Left, right, root
-        self.__traverse_post_order(root.left_child)
-        self.__traverse_post_order(root.right_child)
-        print(root)
+    :param root: is the current Node, or None if there are no more child nodes.
+    """
 
-    def traverse_level_order(self):
-        for i in range(self.height() + 1):
-            for node in self.get_nodes_with_distance(i):
-                print(node)
+    if root is None:
+        return
+
+    # Left, root, right
+    self.__traverse_in_order(root.left_child)
+    print(root)
+    self.__traverse_in_order(root.right_child)
+
+
+def traverse_post_order(self) -> None:
+    """
+    An implementation of post-order traversal of a tree using recursion.
+    """
+
+    self.__traverse_post_order(self.__root)
+
+
+def __traverse_post_order(self, root: _Node) -> None:
+    """
+    The implementation detail of post-order traversal of a tree using recursion.
+
+    :param root: is the current Node, or None if there are no more child nodes.
+    """
+    if root is None:
+        return
+
+    # Left, right, root
+    self.__traverse_post_order(root.left_child)
+    self.__traverse_post_order(root.right_child)
+    print(root)
+
+
+def traverse_level_order(self):
+    for i in range(self.height() + 1):
+        for node in self.get_nodes_with_distance(i):
+            print(node)
 ```
 
 ## AVL Trees
@@ -1913,7 +1931,7 @@ class AVLTree:
         :param node: is the current node.
         :return: the balance difference.
         """
-        return 0 if node is None else \
+        return 0 if node is None else
             self.__height(node.left_child) - self.__height(node.right_child)
 
     def __is_left_heavy(self, node: _AVLNode) -> bool:
@@ -2053,8 +2071,8 @@ class Heap:
         if not self.__has_right_child(index):
             return self.__left_child_index(index)
 
-        return self.__left_child_index(index) \
-            if self.__left_child(index) > self.__right_child(index) \
+        return self.__left_child_index(index)
+            if self.__left_child(index) > self.__right_child(index)
             else self.__right_child_index(index)
 
     def __has_left_child(self, index: int) -> bool:
@@ -2173,8 +2191,8 @@ def get_max_item(numbers: List[int], first: int, second: int) -> (int, int):
     :param second: is the second item to compare.
     :return: a tuple representation of the greater item with the structure: (value, index)
     """
-    return (first, numbers.index(first)) \
-        if first > second \
+    return (first, numbers.index(first))
+        if first > second
         else (second, numbers.index(second))
 
 
@@ -2813,6 +2831,7 @@ import heapq
 from typing import Dict, List, Set
 import random
 
+
 class _Node:
     __label: str
 
@@ -2897,7 +2916,6 @@ class WeightedGraph:
         self.__adjacency_list.get(first_node).append(_Edge(first_node, second_node, weight))
         self.__adjacency_list.get(second_node).append(_Edge(second_node, first_node, weight))
 
-
     def has_cycle(self) -> bool:
         visited: Set[_Node] = set()
         for node in self.__nodes.values():
@@ -2923,7 +2941,6 @@ class WeightedGraph:
 
         # In this case, we did not find a cycle
         return False
-
 
     def print(self):
         """

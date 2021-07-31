@@ -22,13 +22,11 @@ class LinkedList:
     __last: _Node or None = None  # Reference to tail Node
     __size: int = 0
 
-    @property
-    def first(self):
-        return self.__first
-
     def add_first(self, item: int) -> None:
         """
         Adds a node in the beginning of the linked list.
+        Time complexity: O(1).
+        Space complexity: O(n).
 
         :param item: is the item to be inserted at the head.
         """
@@ -49,6 +47,8 @@ class LinkedList:
     def add_last(self, item: int) -> None:
         """
         Adds a node at the end of the linked list.
+        Time complexity: O(1).
+        Space complexity: O(n).
 
         :param item: is the item to be inserted at the tail.
         """
@@ -69,6 +69,8 @@ class LinkedList:
     def remove_first(self) -> None:
         """
         Removes the first node in the list.
+        Time complexity: O(1).
+        Space complexity: O(n).
 
         :raise AttributeError: if the list is empty.
         """
@@ -90,6 +92,8 @@ class LinkedList:
     def remove_last(self) -> None:
         """
         Removed the last node in the linked list.
+        Time complexity: O(1).
+        Space complexity: O(n).
 
         :raise AttributeError: if the list is empty.
         """
@@ -134,6 +138,8 @@ class LinkedList:
     def index_of(self, value: int) -> int:
         """
         Gets the index of a given value from the linked list.
+        Time complexity: O(n).
+        Space complexity: O(n).
 
         :param value: is the value to find the index of.
         :return: the index of the value, or -1 if it does not exist.
@@ -152,6 +158,13 @@ class LinkedList:
         return -1
 
     def to_array(self) -> List[int]:
+        """
+        Converts the linked list into an array of integer values.
+        Time complexity: O(n).
+        Space complexity: O(n).
+
+        :return: the array.
+        """
         array = [0] * self.size()
 
         current_node = self.__first
@@ -167,6 +180,8 @@ class LinkedList:
     def reverse(self) -> None:
         """
         Reverses the linked list in place.
+        Time complexity: O(n).
+        Space complexity: O(n).
         """
 
         if self.__is_empty():
@@ -175,7 +190,7 @@ class LinkedList:
         current: _Node = self.__first
         previous: _Node or None = None
 
-        while current is not None:
+        while current:
             next_node = current.next
             # This is where the reversal happens
             current._next = previous
@@ -188,6 +203,23 @@ class LinkedList:
     def get_nth_node_from_end(self, n: int) -> _Node:
         """
         Finds the n-th node from the end of the linked list in one pass.
+        Example where n = 3:
+        [10, 20, 30, 40, 50]
+
+        1. Create first and second pointers
+
+        [10, 20, 30, 40, 50]
+         *       *
+
+        2. Advance pointers while second pointer is defined
+
+        [10, 20, 30, 40, 50]
+                   *       *
+
+        Now, the first pointer points to the target node.
+
+        Time complexity: O(n + m).
+        Space complexity: O(n).
 
         :rtype: the n-th node from the end.
         :param n: is the index from the end of the node we want to find
@@ -219,6 +251,8 @@ class LinkedList:
         """
         Gets the middle node if the size of the linked list is odd,
         or the two middle nodes if the size of the linked list is even.
+        Time complexity: O(n).
+        Space complexity: O(n).
 
         :return: the middle node or nodes.
         """
@@ -230,7 +264,8 @@ class LinkedList:
         second_pointer: _Node = self.__first
 
         while (second_pointer != self.__last) and (second_pointer.next != self.__last):
-            second_pointer = second_pointer.next._next
+            # This is simply a discovered pattern; move second pointer twice and first pointer once
+            second_pointer = second_pointer.next.next
             first_pointer = first_pointer.next
 
         is_even: bool = second_pointer is None
@@ -240,7 +275,14 @@ class LinkedList:
 
         return first_pointer
 
-    def has_loop(self):
+    def has_loop(self) -> bool:
+        """
+        Checks if the linked list contains a loop.
+        Time complexity: O(n).
+        Space complexity: O(n).
+
+        :return: a boolean indicating whether the linked list contains a loop.
+        """
         first_pointer = self.__first
         second_pointer = self.__first
         found_loop = False
@@ -249,6 +291,7 @@ class LinkedList:
             second_pointer = second_pointer.next
 
             if second_pointer is not None:
+                # Advance second pointer twice
                 second_pointer = second_pointer.next
                 first_pointer = first_pointer.next
 
@@ -261,6 +304,8 @@ class LinkedList:
     def __is_empty(self) -> bool:
         """
         Checks if a linked list is empty.
+        Time complexity: O(1).
+        Space complexity: O(n).
 
         :return: a boolean representation of whether or not the linked list is empty.
         """
@@ -268,6 +313,14 @@ class LinkedList:
         return self.__first is None
 
     def __get_previous_node(self, node: _Node) -> _Node or None:
+        """
+        Gets the previous node, given a node.
+        Time complexity: O(n).
+        Space complexity: O(n).
+
+        :param node: is the given node
+        :return: the previous node of the node given in the parameter.
+        """
         current_node = self.__first
 
         while current_node.next is not None:
@@ -277,3 +330,7 @@ class LinkedList:
             current_node = current_node.next
 
         return None
+
+
+if __name__ == '__main__':
+    linked_list = LinkedList()

@@ -24,8 +24,8 @@ class Array:
         """
         Inserts an item at the end of the array,
         or the first available spot if the array is not yet filled up.
-        Complexity of inserting at the end: O(1).
-        Complexity of inserting in the middle, or when resizing array: O(n).
+        Time complexity: O(n).
+        Space complexity: O(n).
 
         :param item: is the item to be inserted.
         """
@@ -43,7 +43,8 @@ class Array:
     def remove_at(self, index: int):
         """
         Removes the item at the provided index.
-        Complexity: O(n).
+        Time complexity: O(n).
+        Space complexity: O(n).
 
         :param index: is the index of the item to remove.
         """
@@ -60,7 +61,7 @@ class Array:
     def intersect(self, other: List[int]) -> List[int]:
         """
         Gets the common items in this array and another array.
-        Complexity: O(n + m) => O(n).
+        Complexity: O(n + m).
         :param other: is the other array
         :return: the intersection between the two arrays
         """
@@ -80,7 +81,8 @@ class Array:
     def index_of(self, item: int) -> int:
         """
         Gets the index of a given item in the array using linear search.
-        Complexity: O(n).
+        Time complexity: O(n).
+        Space complexity: O(n).
         
         :rtype: the index of the provided item, or -1 if it is not found.
         :param item: is the item to find the corresponding index for. 
@@ -95,7 +97,8 @@ class Array:
     def max(self) -> int:
         """
         Finds the maximum value in the array.
-        Runtime complexity: O(n).
+        Time complexity: O(n).
+        Space complexity: O(n).
 
         :return: the maximum value in the array.
         """
@@ -111,7 +114,8 @@ class Array:
     def reverse(self) -> List[int]:
         """
         Reverses this array.
-        Runtime complexity: O(n).
+        Time complexity: O(n).
+        Space complexity: O(n).
 
         :return: the reversed array
         """

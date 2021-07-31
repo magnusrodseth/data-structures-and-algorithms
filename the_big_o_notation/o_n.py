@@ -18,5 +18,5 @@ for num in numbers:  # O(n)
 for name in names:  # O(m)
     print(name)
 
-# ==> O(n + m) ==> O(n)
+# ==> O(n + m)
 # Still linear growth
