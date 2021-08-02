@@ -1,4 +1,11 @@
 def most_repeated_element(array):
+    """
+    Fins the most repeated element and its frequency in an array using a hash table.
+    Time complexity: O(n + m).
+
+    :param array: is the array to find the most repeated element in.
+    :return: a tuple containing the most repeated element and its frequency.
+    """
     table = {}
 
     for item in array:
