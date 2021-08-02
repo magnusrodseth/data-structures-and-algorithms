@@ -39,6 +39,7 @@ class Tree:
     def insert(self, value: int) -> None:
         """
         Inserts a value into the binary tree. The value is wrapped in a _Node.
+        Time complexity: O(n).
 
         :param value: is the value to be inserted
         """
@@ -57,17 +58,20 @@ class Tree:
                     current._left_child = _Node(value)
                     return
                 else:
+                    # Continue iterating
                     current = current.left_child
             elif value > current.value:
                 if not current.right_child:
                     current._right_child = _Node(value)
                     return
                 else:
+                    # Continue iterating
                     current = current.right_child
 
-    def contains(self, value: int) -> bool:
+    def contains_iterative(self, value: int) -> bool:
         """
-        Checks if the binary tree contains the value.
+        Checks if the binary tree contains the value iteratively.
+        Time complexity: O(n).
 
         :param value: is the value to find.
         :return: a boolean value determining if the binary tree contains the value.
@@ -90,6 +94,31 @@ class Tree:
                 current = current.right_child
 
         return False
+
+    def contains_recursive(self, value: int) -> bool:
+        """
+        Checks if the binary tree contains the value recursively.
+
+        :param value: is the value to find.
+        :return: a boolean value determining if the binary tree contains the value.
+        """
+        return self.__contains_recursive(self.__root, value)
+
+    def __contains_recursive(self, node: _Node, value: int) -> bool:
+        """
+        The implementation detail of checking if the binary tree contains the value recursively.
+        :param node: is the current node.
+        :param value: is the value to find.
+        :return: a boolean value determining if the binary tree contains the value.
+        """
+        if node is None:
+            return False
+
+        if node.value == value:
+            return True
+
+        return self.__contains_recursive(node.left_child, value) \
+               or self.__contains_recursive(node.right_child, value)
 
     def equals(self, tree) -> bool:
         """
@@ -198,7 +227,8 @@ class Tree:
 
     def minimum_value(self) -> int:
         """
-        Finds the minimum value in a binary tree. O(n).
+        Finds the minimum value in a binary tree.
+        Time complexity: (n).
         :return: the minimum value in the tree.
         """
         if self.__root is None:
@@ -208,7 +238,8 @@ class Tree:
 
     def __minimum_value(self, root: _Node) -> int:
         """
-        The implementation detail of finding the minimum value in a binary tree. O(n).
+        The implementation detail of finding the minimum value in a binary tree.
+        Time complexity: (n).
 
         :rtype: the minimum value in the binary tree.
         """
@@ -229,7 +260,8 @@ class Tree:
     def minimum_value_in_binary_search_tree(self) -> int:
         """
         Finds the minimum value in a binary search tree. Recall that in a binary search tree, the left subtree's
-        values will always be less than the right subtree's values. O(log n).
+        values will always be less than the right subtree's values.
+        Time complexity: (log n).
 
         :return: the minimum value in the binary search tree.
         """
@@ -373,6 +405,118 @@ class Tree:
             for node in self.get_nodes_with_distance(i):
                 print(node)
 
+    def size(self):
+        """
+        Recursively calculate the size of the tree.
+        :return: the size of the tree.
+        """
+        return self.__size(self.__root)
+
+    def __size(self, node: _Node) -> int:
+        """
+        The implementation detail of calculating the size of the tree.
+        :param node: is the current node
+        :return: a recursive call to the size of the left and right subtrees.
+        """
+        if node is None:
+            return 0
+        if self.__is_leaf_node(node):
+            return 1
+        return 1 + self.__size(node.left_child) + self.__size(node.right_child)
+
+    def count_leaves(self):
+        """
+        Implement a method to count the number of leaves in a binary tree.
+        :return: the number of leaves in the binary tree.
+        """
+        return self.__count_leaves(self.__root)
+
+    def __count_leaves(self, node: _Node) -> int:
+        """
+        The implementation detail of calculating the leaves of the tree.
+        :param node: is the current node.
+        :return: the amount of leaf nodes in the tree.
+        """
+        if node is None:
+            return 0
+        if self.__is_leaf_node(node):
+            return 1
+        return self.__count_leaves(node.left_child) + self.__count_leaves(node.right_child)
+
+    def maximum_value(self):
+        """
+        Calculates the maximum value in the tree recursively.
+        :return: the maximum value.
+        """
+        return self.__maximum_value(self.__root)
+
+    def __maximum_value(self, node: _Node) -> int:
+        """
+        The implementation detail of calculating the maximum value in a binary tree.
+        :param node: is the current node.
+        :return: the maximum value of the tree.
+        """
+        if self.__is_leaf_node(node):
+            return node.value
+
+        left_maximum = self.__maximum_value(node.left_child)
+        right_maximum = self.__maximum_value(node.right_child)
+
+        maximum_subtree = max(left_maximum, right_maximum)
+
+        return max(node.value, maximum_subtree)
+
+    def are_siblings(self, first_value: int, second_value: int) -> bool:
+        return self.__are_siblings(self.__root, first_value, second_value)
+
+    def __are_siblings(self, node: _Node, first_value: int, second_value: int) -> bool:
+        if node.left_child is None or node.right_child is None:
+            return False
+
+        if (node.left_child.value == first_value and node.right_child.value == second_value) \
+                or (node.right_child.value == first_value and node.left_child.value == second_value):
+            return True
+
+        return self.__are_siblings(node.left_child, first_value, second_value) \
+               or self.__are_siblings(node.right_child, first_value, second_value)
+
+    def get_ancestors(self, value: int) -> List[int]:
+        """
+        Gets the ancestors of the given value.
+        :param value: is the value to find ancestors of.
+        :return: a list of ancestors of the given value.
+        """
+        if not self.contains_recursive(value):
+            return []
+
+        ancestors: List[int] = []
+
+        self.__get_ancestors(self.__root, value, ancestors)
+
+        return ancestors
+
+    def __get_ancestors(self, node: _Node, value: int, array: List[int]) -> bool:
+        """
+        The implementation detail of finding ancestors for a given value.
+        :param node: is the current node.
+        :param value: is the target value.
+        :param array: is the list of ancestors.
+        :return: a boolean value determining if the value was found further down the subtree.
+        """
+        if node is None:
+            return False
+
+        if node.value == value:
+            return True
+
+        # We target value is found in the tree, this means we should add this ancestor
+        if self.__get_ancestors(node.left_child, value, array) or \
+                self.__get_ancestors(node.right_child, value, array):
+            array.append(node.value)
+            return True
+
+        return False
+
 
 if __name__ == '__main__':
     tree = Tree()
@@ -385,4 +529,4 @@ if __name__ == '__main__':
     tree.insert(8)
     tree.insert(10)
 
-    tree.traverse_level_order()
+    print(tree.get_ancestors(8))

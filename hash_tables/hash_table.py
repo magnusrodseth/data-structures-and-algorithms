@@ -242,7 +242,7 @@ class HashTable:
 
         linked_list = self.__table[index]
 
-        if linked_list.contains(key):
+        if linked_list.contains_iterative(key):
             return linked_list.get_node(key)
 
         return None
@@ -260,7 +260,7 @@ class HashTable:
         if linked_list is None:
             raise AttributeError("The linked list is undefined.")
 
-        if linked_list.contains(key):
+        if linked_list.contains_iterative(key):
             linked_list.remove(key)
 
     def __hash(self, key: int) -> int:
