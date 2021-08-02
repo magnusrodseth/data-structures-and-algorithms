@@ -34,7 +34,7 @@ class LinkedList:
         node = _Node(item)
 
         # List has no items
-        if self.__is_empty():
+        if self.is_empty():
             self.__first = node
             self.__last = node
         # List has first item
@@ -56,7 +56,7 @@ class LinkedList:
         node = _Node(item)
 
         # List has no items
-        if self.__is_empty():
+        if self.is_empty():
             self.__first = node
             self.__last = node
         # List has last item
@@ -74,7 +74,7 @@ class LinkedList:
 
         :raise AttributeError: if the list is empty.
         """
-        if self.__is_empty():
+        if self.is_empty():
             raise AttributeError("Linked list is empty and has no first element.")
 
         # List has only one element
@@ -97,7 +97,7 @@ class LinkedList:
 
         :raise AttributeError: if the list is empty.
         """
-        if self.__is_empty():
+        if self.is_empty():
             raise AttributeError("Linked list is empty and has no last element.")
 
         # List has only one element
@@ -184,7 +184,7 @@ class LinkedList:
         Space complexity: O(n).
         """
 
-        if self.__is_empty():
+        if self.is_empty():
             return
 
         current: _Node = self.__first
@@ -225,7 +225,7 @@ class LinkedList:
         :param n: is the index from the end of the node we want to find
         """
 
-        if self.__is_empty():
+        if self.is_empty():
             raise AttributeError("The linked list is empty.")
 
         first_pointer = self.__first
@@ -257,7 +257,7 @@ class LinkedList:
         :return: the middle node or nodes.
         """
 
-        if self.__is_empty():
+        if self.is_empty():
             raise AttributeError("The list is empty")
 
         first_pointer = self.__first
@@ -301,7 +301,7 @@ class LinkedList:
 
         return found_loop
 
-    def __is_empty(self) -> bool:
+    def is_empty(self) -> bool:
         """
         Checks if a linked list is empty.
         Time complexity: O(1).

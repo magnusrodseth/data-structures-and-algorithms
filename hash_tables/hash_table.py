@@ -78,6 +78,7 @@ class _LinkedList:
     def index_of(self, key: int) -> int:
         """
         Gets the index of a given key from the linked list.
+        Time complexity: O(n).
 
         :param key: is the key to find the index of.
         :return: the index of the key, or -1 if it does not exist.
@@ -98,6 +99,7 @@ class _LinkedList:
     def get_node(self, key: int) -> _Node or None:
         """
         Gets a node with a given key. A key is a unique identifier.
+        Time complexity: O(n).
 
         :param key: is the key in the key-value pair.
         :return: the Node with the given key, or None if no such Node exists.

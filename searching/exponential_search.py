@@ -4,6 +4,12 @@ from searching.binary_search_recursive import _binary_search_recursive
 
 
 def exponential_search(array: List[int], value: int) -> int:
+    """
+    Performs an exponential search on an array of integers.
+    :param array: is the array to search.
+    :param value: is the value to search for.
+    :return: the index of the value, or -1 if the value does not exist.
+    """
     bound = 1
 
     while (bound < len(array)) and (array[bound] < value):

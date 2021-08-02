@@ -99,6 +99,6 @@ if __name__ == '__main__':
 
     queue.print()
 
-    queue.enqueue(40)
+    # queue.enqueue(40)
 
     queue.print()

@@ -62,13 +62,19 @@ class StackQueue:
         """
         return self.__first_stack.is_empty() and self.__second_stack.is_empty()
 
+    def print(self):
+        while not self.is_empty():
+            print(self.peek())
+
 
 if __name__ == '__main__':
-    queue = StackQueue(3)
+    queue = StackQueue(10)
 
     queue.enqueue(10)
     queue.enqueue(20)
     queue.enqueue(30)
+    queue.enqueue(40)
+    queue.enqueue(50)
 
     item1 = queue.dequeue()
     print(f'Dequeued: {item1}')
