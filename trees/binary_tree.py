@@ -302,6 +302,28 @@ class Tree:
 
         return last.value
 
+    def is_balanced(self) -> bool:
+        """
+        Checks if a tree is balanced.
+        :return: a boolean indicating if the tree is balanced.
+        """
+        return self.__is_balanced(self.__root)
+
+    def __is_balanced(self, root: _Node) -> bool:
+        """
+        The implementation detail of checking if a tree is balanced.
+        :param root: is the current node.
+        :return: a boolean value determining if the tree is balanced.
+        """
+        if root is None:
+            return True
+
+        balance_difference = self.__height(root.left_child) - self.__height(root.right_child)
+
+        return abs(balance_difference) <= 1 \
+               and self.__is_balanced(root.left_child) \
+               and self.__is_balanced(root.right_child)
+
     def __is_leaf_node(self, node: _Node) -> bool:
         """
         Checks if a node is a leaf node.
