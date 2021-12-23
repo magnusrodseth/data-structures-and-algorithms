@@ -3,9 +3,16 @@ from typing import List
 from sorting.merge_sort import merge_sort
 
 
+# array = [21, 4, 6, 3, 24, 56, 78, 765, 432, 1234, 56, 78]
+# array = sorted(array)
+#
+
+
 def binary_search_iterative(array: List[int], value: int) -> int:
     """
     An iterative implementation of binary search.
+    Runs in O(log n) time and O(1) space.
+
     :param array: is the array to search.
     :param value: is the value to search for.
     :return: the index of the value, or -1 if it does not exist.
@@ -21,7 +28,7 @@ def binary_search_iterative(array: List[int], value: int) -> int:
         if array[middle] < value:
             low = middle + 1
         if array[middle] > value:
-            high = middle + -1
+            high = middle - 1
 
     return -1
 

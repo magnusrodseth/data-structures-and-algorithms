@@ -52,7 +52,6 @@ class _LinkedList:
         # List has last item
         else:
             self.__last._next = node
-            self.__last = node
 
         self.__size += 1
 
